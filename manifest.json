@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Remove Table Rows Extension V2",
+  "version": "1.0",
+  "description": "Remove table rows where the last cell contains zero.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "webRequest",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "storage",
+    "identity",
+    "webNavigation"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "oauth2": {
+    "client_id": "471227204858-nalh251gvestcvul7feoaso6b66pru91.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.events",
+      "https://www.googleapis.com/auth/calendar"
+    ]
+  },
+  "host_permissions": [
+    "https://crm.giganciprogramowania.edu.pl/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/16x16.png",
+      "48": "images/48x48.png",
+      "128": "images/128x128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://crm.giganciprogramowania.edu.pl/app/RezerwacjaTerminow*"],
+      "js": ["content.js"]
+    },
+    {
+      "matches": ["https://crm.giganciprogramowania.edu.pl/app/CzasPracy/KalendarzZajec*"],
+      "js": ["content_time.js"]
+    }
+  ]
+}

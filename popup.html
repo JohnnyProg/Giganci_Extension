@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Remove Table Rows</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 10px;
+      min-width: 400px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <button id="retriveData">retriveData</button>
+  <h1>Remove Table Rows</h1>
+  <button id="login">Login with Google</button>
+    <select id="calendarSelect"></select>
+  <button id="removeRowsButton">Remove Rows</button>
+  <div id="availability">
+    <h1>Lesson Reservation</h1>
+    <label for="datePicker">Select a date:</label>
+    <input type="date" id="datePicker">
+    <br>
+    <label for="ageGroups">Select age groups:</label>
+    <div id="ageGroups">
+      <!-- Divs with checkboxes will be populated here -->
+    </div>
+
+    <br>
+    <label for="timeWindows">Select time windows:</label>
+    <div id="windows">
+      <!-- Divs with checkboxes will be populated here -->
+   </div>
+
+    <br>
+    <button id="reserveButton">Reserve All</button>
+    <script src="popup.js"></script>
+
+  </div>
+</body>
+</html>
