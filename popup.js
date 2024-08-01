@@ -101,20 +101,60 @@ const timeWindows = [
   '19:00-20:00',
 ];
 
+// Set the time gap index (minimum difference in time slots)
+let timeGap = 2; // Adjust to require a minimum gap between time slots
 
-timeWindows.forEach(element => {
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.id = `time-${element}`;
-  checkbox.name = 'time';
-  checkbox.value = element;
+const rangeInputvalue = document.querySelectorAll(".range-input input");
+const timeInputvalue = document.querySelectorAll(".time-input input");
+const rangevalue = document.querySelector(".slider-container .time-slider");
 
-  const label = document.createElement('label');
-  label.htmlFor = `time-${element}`;
-  label.textContent = element;
-  checkboxContainer2.appendChild(checkbox);
-  checkboxContainer2.appendChild(label);
-});
+// Initialize the input fields
+timeInputvalue[0].value = timeWindows[5];
+timeInputvalue[1].value = timeWindows[timeWindows.length - 1];
+
+// Adding event listeners to the range input elements
+for (let i = 0; i < rangeInputvalue.length; i++) {
+    rangeInputvalue[i].addEventListener("input", e => {
+        let startIndex = parseInt(rangeInputvalue[0].value);
+        let endIndex = parseInt(rangeInputvalue[1].value);
+
+        // Validate and enforce minimum time gap
+        if (endIndex - startIndex < timeGap) {
+            if (e.target.className === "min-range") {
+                rangeInputvalue[0].value = endIndex - timeGap;
+                startIndex = endIndex - timeGap;
+            } else {
+                rangeInputvalue[1].value = startIndex + timeGap;
+                endIndex = startIndex + timeGap;
+            }
+        }
+
+        // Update the time inputs
+        timeInputvalue[0].value = timeWindows[startIndex];
+        timeInputvalue[1].value = timeWindows[endIndex];
+        rangevalue.style.left = `${(startIndex / rangeInputvalue[0].max) * 100}%`;
+        rangevalue.style.right = `${100 - (endIndex / rangeInputvalue[1].max) * 100}%`;
+    });
+}
+
+// Initialize slider positions
+rangeInputvalue[0].value = 0;
+rangeInputvalue[1].value = timeWindows.length - 1;
+
+
+// timeWindows.forEach(element => {
+//   const checkbox = document.createElement('input');
+//   checkbox.type = 'checkbox';
+//   checkbox.id = `time-${element}`;
+//   checkbox.name = 'time';
+//   checkbox.value = element;
+
+//   const label = document.createElement('label');
+//   label.htmlFor = `time-${element}`;
+//   label.textContent = element;
+//   checkboxContainer2.appendChild(checkbox);
+//   checkboxContainer2.appendChild(label);
+// });
 
 
 
@@ -124,7 +164,14 @@ document.addEventListener('DOMContentLoaded', function () {
   reserveButton.addEventListener('click', async () => {
       const selectedDate = document.getElementById('datePicker').value;
       const selectedAgeGroups = getSelectedCheckboxes('ageGroups');
-      const selectedTimeWindows = getSelectedCheckboxes('time');
+      // const selectedTimeWindows = getSelectedCheckboxes('time');
+
+      const rangeInputs = document.querySelectorAll(".range-input input");
+
+      const startIndex = parseInt(rangeInputs[0].value);
+      const endIndex = parseInt(rangeInputs[1].value);
+
+      const selectedTimeWindows = timeWindows.slice(startIndex, endIndex + 1);
 
       // Replace the example logic with your actual implementation
       console.log('Selected date:', selectedDate);
